@@ -1,6 +1,44 @@
+export const applySearch = (query, queryStr) => {
+  const keyword = queryStr.keyword
+    ? {
+        name: {
+          $regex: queryStr.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  return query.find({ ...keyword });
+};
+
+export const applyFilters = (query, queryStr) => {
+  const queryCopy = { ...queryStr };
+  const removeFields = ["keyword", "page", "limit"];
+  removeFields.forEach((field) => delete queryCopy[field]);
+
+  const filterQuery = {};
+
+  Object.keys(queryCopy).forEach((key) => {
+    if (key.includes("[")) {
+      const [field, operator] = key.split(/\[|\]/).filter(Boolean);
+      if (!filterQuery[field]) filterQuery[field] = {};
+      filterQuery[field][`$${operator}`] = Number(queryCopy[key]);
+    } else {
+      filterQuery[key] = queryCopy[key];
+    }
+  });
+
+  return query.find(filterQuery);
+};
+
+export const applyPagination = (query, queryStr, resultsPerPage) => {
+  const currentPage = Number(queryStr.page) || 1;
+  const skip = resultsPerPage * (currentPage - 1);
+
+  return query.limit(resultsPerPage).skip(skip);
+};
+
 /**
- 
- 
 class APIFilters {
   constructor(query, queryStr) {
     this.query = query;
@@ -55,45 +93,4 @@ class APIFilters {
 }
 
 export default APIFilters;
- 
  */
-
-export const applySearch = (query, queryStr) => {
-  const keyword = queryStr.keyword
-    ? {
-        name: {
-          $regex: queryStr.keyword,
-          $options: "i",
-        },
-      }
-    : {};
-
-  return query.find({ ...keyword });
-};
-
-export const applyFilters = (query, queryStr) => {
-  const queryCopy = { ...queryStr };
-  const removeFields = ["keyword", "page", "limit"];
-  removeFields.forEach((field) => delete queryCopy[field]);
-
-  const filterQuery = {};
-
-  Object.keys(queryCopy).forEach((key) => {
-    if (key.includes("[")) {
-      const [field, operator] = key.split(/\[|\]/).filter(Boolean);
-      if (!filterQuery[field]) filterQuery[field] = {};
-      filterQuery[field][`$${operator}`] = Number(queryCopy[key]);
-    } else {
-      filterQuery[key] = queryCopy[key];
-    }
-  });
-
-  return query.find(filterQuery);
-};
-
-export const applyPagination = (query, queryStr, resultsPerPage) => {
-  const currentPage = Number(queryStr.page) || 1;
-  const skip = resultsPerPage * (currentPage - 1);
-
-  return query.limit(resultsPerPage).skip(skip);
-};
