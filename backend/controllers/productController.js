@@ -1,5 +1,9 @@
 import Product from "../models/Product.js";
-import APIFilters from "../utils/apiFilters.js";
+import {
+  applySearch,
+  applyFilters,
+  applyPagination,
+} from "../utils/apiFilters.js";
 
 // @desc   Get all products
 // @route  GET /api/v1/products
@@ -7,15 +11,28 @@ import APIFilters from "../utils/apiFilters.js";
 export const getProducts = async (req, res) => {
   try {
     const resultsPerPage = 4;
+
+    let query = Product.find();
+    query = applySearch(query, req.query);
+    query = applyFilters(query, req.query);
+    query = applyPagination(query, req.query, resultsPerPage);
+
+    const products = await query;
+    const filteredProductsCount = products.length;
+
+    /** 
     const apiFilters = new APIFilters(Product, req.query).search().filters();
 
     let products = await apiFilters.query;
+
     let filteredProductsCount = products.length;
 
     apiFilters.pagination(resultsPerPage);
     products = await apiFilters.query.clone();
 
-    // const products = await Product.find();
+    const products = await Product.find();
+     **/
+
     res.status(200).json({ resultsPerPage, filteredProductsCount, products });
   } catch (error) {
     console.error("Error fetching all products: ", error);
