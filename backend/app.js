@@ -2,17 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 
-// Routers
+// ----- ROUTERS -----
 import productRoutes from "./routes/products.js";
+import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 const app = express();
 
-// Middleware
+// ----- MIDDLEWARE -----
 app.use(express.json());
 
-// ----- API Routes -----
+// ----- API ROUTES -----
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", authRoutes);
 
 // ----- CONNECT TO DATABASE -----
 connectDB()
