@@ -48,6 +48,7 @@ export const getProducts = async (req, res) => {
 // @access Admin
 export const newProduct = async (req, res) => {
   try {
+    req.body.user = req.user._id;
     const product = await Product.create(req.body);
 
     res.status(201).json({

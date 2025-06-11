@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/database.js";
 
 // ----- ROUTERS -----
@@ -11,6 +12,7 @@ const app = express();
 
 // ----- MIDDLEWARE -----
 app.use(express.json());
+app.use(cookieParser());
 
 // ----- API ROUTES -----
 app.use("/api/v1", productRoutes);
