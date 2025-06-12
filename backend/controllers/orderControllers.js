@@ -88,7 +88,7 @@ export const getOrderDetails = async (req, res) => {
 // @access Admin
 export const allOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().sort({ createdAt: -1 });
 
     res
       .status(200)
@@ -131,16 +131,44 @@ export const updateOrder = async (req, res) => {
         });
       }
 
-      product.stock = product.stock - quantity;
-      await product.save();
+      product.stock = product.stock - item?.quantity;
+      await product.save({ validateBeforeSave: false });
     });
 
     order.orderStatus = req.body.status;
     order.deliveredAt = Date.now();
 
-    res.status(200).json({ success: true, message: "Fetched all orders" });
+    await order.save();
+
+    res.status(200).json({ success: true, message: "Order Updated" });
   } catch (error) {
-    console.error("Error while fetching all orders: ", error);
+    console.error("Error while updating order: ", error);
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc   Delete order
+// @route  GET /api/v1/orders/:id
+// @access Public
+export const deleteOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "No Order found with this ID",
+      });
+    }
+
+    await order.deleteOne();
+
+    res.status(200).json({ success: true, message: "Order Deleted", order });
+  } catch (error) {
+    console.error("Error while deleting order: ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
