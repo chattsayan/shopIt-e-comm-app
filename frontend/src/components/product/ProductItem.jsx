@@ -26,7 +26,7 @@ const ProductItem = ({ product }) => {
             <div className="flex">
               <StarRatings
                 rating={product?.ratings}
-                starRatedColor="#f59e0b"
+                starRatedColor="#008000"
                 starEmptyColor="#e5e7eb"
                 starDimension="21px"
                 starSpacing="1px"
@@ -42,11 +42,11 @@ const ProductItem = ({ product }) => {
             <p className="text-gray-700 font-semibold text-lg">
               $ {product?.price?.toFixed(2)}
             </p>
-            <span className="text-sm text-gray-500">
+            {/* <span className="text-sm text-gray-500">
               {product?.stock > 0
                 ? `${product.stock} in stock`
                 : "Out of stock"}
-            </span>
+            </span> */}
           </div>
           <Link
             to={`/product/${product?._id}`}
