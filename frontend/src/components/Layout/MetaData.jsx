@@ -1,11 +1,11 @@
-import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const MetaData = ({ title }) => {
-  return (
-    <Helmet>
-      <title>{`${title} - ShopIT`}</title>
-    </Helmet>
-  );
+  useEffect(() => {
+    document.title = `${title} - ShopIT`;
+  }, [title]);
+
+  return null;
 };
 
 export default MetaData;

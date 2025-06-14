@@ -4,6 +4,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { PiUserCircle } from "react-icons/pi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,11 +32,13 @@ const Header = () => {
       <div className="flex items-center justify-between py-2 sm:py-3 px-3 sm:px-5">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <img
-            src="../images/shopit_logo.png"
-            alt="logo"
-            className="h-8 sm:h-10 md:h-12 w-auto"
-          />
+          <Link to="/">
+            <img
+              src="../images/shopit_logo.png"
+              alt="logo"
+              className="h-8 sm:h-10 md:h-12 w-auto"
+            />
+          </Link>
         </div>
 
         {/* Search */}
