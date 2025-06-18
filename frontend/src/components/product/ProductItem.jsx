@@ -1,15 +1,18 @@
-import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
 const ProductItem = ({ product }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
       <div className="p-4">
         <div className="relative group">
           <img
             className="w-full h-48 object-contain transition-transform duration-300 group-hover:scale-105"
-            src={product?.images[0]?.url}
+            src={
+              product?.images[0]
+                ? product?.images[0]?.url
+                : "/images/default_product.png"
+            }
             alt={product?.name}
           />
         </div>

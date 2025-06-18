@@ -15,23 +15,13 @@ export const getProducts = async (req, res) => {
     let query = Product.find();
     query = applySearch(query, req.query);
     query = applyFilters(query, req.query);
+    
+    // Get total count before pagination
+    const filteredProductsCount = await query.clone().countDocuments();
+    
+    // Apply pagination after getting count
     query = applyPagination(query, req.query, resultsPerPage);
-
     const products = await query;
-    const filteredProductsCount = products.length;
-
-    /** 
-    const apiFilters = new APIFilters(Product, req.query).search().filters();
-
-    let products = await apiFilters.query;
-
-    let filteredProductsCount = products.length;
-
-    apiFilters.pagination(resultsPerPage);
-    products = await apiFilters.query.clone();
-
-    const products = await Product.find();
-     **/
 
     res.status(200).json({ resultsPerPage, filteredProductsCount, products });
   } catch (error) {

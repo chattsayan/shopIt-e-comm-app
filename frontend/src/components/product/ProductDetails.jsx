@@ -31,7 +31,7 @@ const ProductDetails = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="flex flex-wrap justify-around gap-8 p-4">
+    <div className="flex flex-wrap justify-around gap-8 p-4 mt-7">
       {/* Product Images Section */}
       <div className="w-full lg:w-5/12">
         <div className="p-3">

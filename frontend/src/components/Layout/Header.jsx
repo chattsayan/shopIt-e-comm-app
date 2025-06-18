@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import { LuShoppingCart } from "react-icons/lu";
 import { PiUserCircle } from "react-icons/pi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -41,22 +42,9 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Search */}
+        {/* Search - Desktop */}
         <div className="hidden sm:flex flex-1 max-w-xl mx-4">
-          <form className="flex items-center w-full">
-            <input
-              type="text"
-              placeholder="Enter Product Name ..."
-              name="keyword"
-              className="h-9 sm:h-10 p-2 sm:p-3 bg-white text-black rounded-l-full w-full text-sm sm:text-base"
-            />
-            <button
-              type="submit"
-              className="h-9 sm:h-10 bg-amber-500 p-2 sm:p-2.5 rounded-r-full hover:bg-amber-600"
-            >
-              <IoSearchOutline size={18} />
-            </button>
-          </form>
+          <Search />
         </div>
 
         {/* Right side: Desktop */}
@@ -123,19 +111,7 @@ const Header = () => {
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="sm:hidden bg-gray-700 text-white px-4 py-3 space-y-3">
-          <form className="flex items-center">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="flex-1 h-9 p-2 rounded-l-full bg-white text-black text-sm"
-            />
-            <button
-              type="submit"
-              className="h-9 bg-amber-500 p-2 rounded-r-full hover:bg-amber-600"
-            >
-              <IoSearchOutline size={18} />
-            </button>
-          </form>
+          <Search />
 
           <div className="flex items-center gap-3 py-2">
             <div className="relative">
@@ -146,11 +122,6 @@ const Header = () => {
             </div>
             <span>Cart (0)</span>
           </div>
-
-          {/* <div className="flex items-center gap-3 py-2">
-            <PiUserCircle size={20} />
-            <span>User</span>
-          </div> */}
 
           <div>
             <button
