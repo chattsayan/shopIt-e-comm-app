@@ -26,7 +26,7 @@ export const isAuthenticatedUser = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(401).send(`Authentication Error: ${error.message}`);
+    res.status(401).json(`Authentication Error: ${error.message}`);
   }
 };
 
