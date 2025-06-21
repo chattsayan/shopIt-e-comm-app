@@ -4,6 +4,7 @@ import { userApi } from "./userApi";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query(body) {
@@ -39,11 +40,20 @@ export const authApi = createApi({
         }
       },
     }),
-    logout: builder.query({
+    logout: builder.mutation({
       query: () => "/logout",
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          // Invalidate and refetch user data to clear the cache
+          dispatch(userApi.util.invalidateTags(["User"]));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useLazyLogoutQuery } =
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
   authApi;

@@ -6,8 +6,9 @@ import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import { useGetMeQuery } from "../../redux/api/userApi";
-import { useSelector } from "react-redux";
-import { useLazyLogoutQuery } from "../../redux/api/authApi";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../../redux/api/authApi";
+import { logout } from "../../redux/slice/userSlice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -15,14 +16,22 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const dispatch = useDispatch();
 
   const { isLoading } = useGetMeQuery();
-  const [logout] = useLazyLogoutQuery();
+  const [logoutApi] = useLogoutMutation();
   const { user } = useSelector((state) => state.user);
 
   const logoutHandler = async () => {
-    await logout().unwrap();
-    navigate("/");
+    try {
+      await logoutApi().unwrap();
+      dispatch(logout());
+      setIsDropdownOpen(false);
+      setIsUserMenuOpen(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   useEffect(() => {
@@ -201,7 +210,10 @@ const Header = () => {
             </div>
           ) : (
             !isLoading && (
-              <button className="w-full bg-amber-500 py-2 rounded-md hover:bg-amber-600 cursor-pointer">
+              <button
+                onClick={() => navigate("/login")}
+                className="w-full bg-amber-500 py-2 rounded-md hover:bg-amber-600 cursor-pointer"
+              >
                 Login
               </button>
             )

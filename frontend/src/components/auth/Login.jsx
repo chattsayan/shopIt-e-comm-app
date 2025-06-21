@@ -89,6 +89,7 @@ const Login = () => {
 
           <button
             type="submit"
+            onClick={() => navigate("/")}
             className="w-full py-2.5 bg-orange-500 text-white font-semibold rounded-md shadow hover:bg-orange-600 transition-colors cursor-pointer"
             disabled={isLoading}
           >
