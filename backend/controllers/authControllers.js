@@ -3,6 +3,7 @@ import sendToken from "../utils/sendToken.js";
 import sendEmail from "../utils/sendMail.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplate.js";
 import crypto from "crypto";
+import { delete_file, upload_file } from "../utils/cloudinary.js";
 
 // @desc   Register user
 // @route  POST /api/v1/register
@@ -228,6 +229,49 @@ export const updatePassword = async (req, res) => {
     res.status(200).json({ success: true, message: "Password updated" });
   } catch (error) {
     console.error("Error updating user password: ", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc   Upload user avatar
+// @route  PUT /api/v1/me/upload_avatar
+// @access Public
+export const uploadAvatar = async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      console.log("No file uploaded");
+      return res
+        .status(400)
+        .json({ success: false, message: "No file uploaded" });
+    }
+
+    // Upload file to cloudinary
+    const avatarResponse = await upload_file(file.buffer, "shopIT/avatars");
+
+    if (!avatarResponse) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Cloudinary upload failed" });
+    }
+
+    // Remove previous avatar from cloudinary
+    if (req?.user?.avatar?.public_id) {
+      await delete_file(req?.user?.avatar?.public_id);
+    }
+
+    // Update user's avatar in database
+    const user = await User.findByIdAndUpdate(req?.user?._id, {
+      avatar: avatarResponse,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Avatar uploaded successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error while uploading avatar: ", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

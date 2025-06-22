@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setIsAuthenticated, setUser } from "../slice/userSlice";
+import { setIsAuthenticated, setLoading, setUser } from "../slice/userSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -15,12 +15,44 @@ export const userApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data?.user));
           dispatch(setIsAuthenticated(true));
+          dispatch(setLoading(false));
         } catch (error) {
+          dispatch(setLoading(false));
           console.log(error);
         }
       },
     }),
+    updateUser: builder.mutation({
+      query(body) {
+        return {
+          url: "/me/update",
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["User"],
+    }),
+    uploadAvatar: builder.mutation({
+      query: (formData) => ({
+        url: "/me/upload_avatar",
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    updatePassword: builder.mutation({
+      query: (body) => ({
+        url: "/password/update",
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetMeQuery } = userApi;
+export const {
+  useGetMeQuery,
+  useUpdateUserMutation,
+  useUploadAvatarMutation,
+  useUpdatePasswordMutation,
+} = userApi;

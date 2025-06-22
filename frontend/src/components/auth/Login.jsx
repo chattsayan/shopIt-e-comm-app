@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/api/authApi";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [login, { isLoading, error, data }] = useLoginMutation();
+  const [login, { isLoading, error }] = useLoginMutation();
   const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -20,13 +20,17 @@ const Login = () => {
     if (error) {
       toast.error(error?.data?.message);
     }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.data?.message || "Login Failed. Please try again.");
+    }
   }, [error]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    const loginData = { email, password };
-    login(loginData);
+    login({ email, password });
   };
 
   return (
@@ -51,6 +55,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
+              required
             />
           </div>
 
@@ -69,6 +74,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
+              required
             />
           </div>
 
@@ -89,7 +95,6 @@ const Login = () => {
 
           <button
             type="submit"
-            onClick={() => navigate("/")}
             className="w-full py-2.5 bg-orange-500 text-white font-semibold rounded-md shadow hover:bg-orange-600 transition-colors cursor-pointer"
             disabled={isLoading}
           >

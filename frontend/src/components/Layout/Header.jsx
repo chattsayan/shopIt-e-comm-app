@@ -91,7 +91,7 @@ const Header = () => {
               >
                 {user ? (
                   <img
-                    src="/images/default_avatar.jpg"
+                    src={user?.avatar?.url || "/images/default_avatar.jpg"}
                     className="sm:w-7 sm:h-7 rounded-full"
                     alt="user image"
                   />
@@ -170,7 +170,7 @@ const Header = () => {
                 <div className="flex items-center gap-2">
                   {user ? (
                     <img
-                      src="/images/default_avatar.jpg"
+                      src={user?.avatar?.url || "/images/default_avatar.jpg"}
                       className="w-7 h-7 rounded-full"
                       alt="user image"
                     />
