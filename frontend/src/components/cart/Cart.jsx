@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import MetaData from "../Layout/MetaData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setCartItem, removeCartItem } from "../../redux/slice/cartSlice";
 import { RiDeleteBin2Fill } from "react-icons/ri";
@@ -8,6 +8,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const decreaseQty = (item, quantity) => {
     const newQty = quantity - 1;
@@ -38,6 +39,10 @@ const Cart = () => {
   const removeItemFromCart = (id) => {
     dispatch(removeCartItem(id));
     toast.success("Item removed from cart");
+  };
+
+  const checkoutHandler = () => {
+    navigate("/shipping");
   };
 
   // Calculate subtotal and total units
@@ -149,7 +154,10 @@ const Cart = () => {
                 <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
               <hr className="mb-4 border-gray-400" />
-              <button className="w-full py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition font-semibold mt-2 cursor-pointer">
+              <button
+                className="w-full py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition font-semibold mt-2 cursor-pointer"
+                onClick={checkoutHandler}
+              >
                 Check out
               </button>
             </div>
