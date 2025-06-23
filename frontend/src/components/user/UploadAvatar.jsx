@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useUploadAvatarMutation } from "../../redux/api/userApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import MetaData from "../Layout/MetaData";
 
 const UploadAvatar = () => {
   const { user } = useSelector((state) => state.user);
@@ -75,6 +76,7 @@ const UploadAvatar = () => {
 
   return (
     <UserLayout>
+      <MetaData title={"Upload Avatar"} />
       <div className="flex justify-center items-center">
         <div className="w-full p-8">
           <form onSubmit={submitHandler} className="space-y-8">

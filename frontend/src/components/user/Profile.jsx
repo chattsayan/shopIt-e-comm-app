@@ -1,3 +1,4 @@
+import MetaData from "../Layout/MetaData";
 import UserLayout from "../Layout/UserLayout";
 import { useSelector } from "react-redux";
 
@@ -6,6 +7,7 @@ const Profile = () => {
 
   return (
     <UserLayout>
+      <MetaData title={"Profile"} />
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mt-5">
         {/* Avatar Section */}
         <div className="flex-shrink-0 flex flex-col items-center w-full md:w-1/3">

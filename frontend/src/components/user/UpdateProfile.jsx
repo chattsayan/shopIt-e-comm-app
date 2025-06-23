@@ -4,6 +4,7 @@ import { useUpdateUserMutation } from "../../redux/api/userApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import UserLayout from "../Layout/UserLayout";
+import MetaData from "../Layout/MetaData";
 
 const UpdateProfile = () => {
   const [name, setName] = useState("");
@@ -38,6 +39,7 @@ const UpdateProfile = () => {
 
   return (
     <UserLayout>
+      <MetaData title={"Update Profile"} />
       <div className="flex justify-center items-center">
         <div className="w-full p-8">
           <form onSubmit={submitHandler} className="space-y-6">

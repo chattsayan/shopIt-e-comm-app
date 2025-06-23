@@ -21,6 +21,7 @@ export const upload_file = (fileBuffer, folder) => {
           console.error("Cloudinary upload error:", error);
           return reject(error);
         }
+
         if (!result) {
           console.error("Cloudinary upload failed: result is undefined");
           return reject(

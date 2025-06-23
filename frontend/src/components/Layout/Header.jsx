@@ -21,6 +21,13 @@ const Header = () => {
   const { isLoading } = useGetMeQuery();
   const [logoutApi] = useLogoutMutation();
   const { user } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
+
+  // Calculate total quantity of all items in the cart
+  const totalCartQuantity = cartItems?.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   const logoutHandler = async () => {
     try {
@@ -70,10 +77,13 @@ const Header = () => {
 
         {/* Right side: Desktop */}
         <div className="hidden sm:flex items-center gap-2 sm:gap-3">
-          <div className="relative hover:bg-gray-700 rounded-full p-1.5 sm:p-2 cursor-pointer transition-all">
+          <div
+            className="relative hover:bg-gray-700 rounded-full p-1.5 sm:p-2 cursor-pointer transition-all"
+            onClick={() => navigate("/cart")}
+          >
             <LuShoppingCart size={20} className="sm:w-6 sm:h-6" />
             <p className="absolute right-[-2px] top-[3px] w-4 text-center leading-4 bg-orange-600 text-white aspect-square rounded-full text-[9px] font-bold">
-              0
+              {totalCartQuantity}
             </p>
           </div>
 
@@ -151,14 +161,14 @@ const Header = () => {
         <div className="sm:hidden bg-gray-700 text-white px-4 py-3 space-y-3">
           <Search />
 
-          <div className="flex items-center gap-3 py-2">
+          <div
+            className="flex items-center gap-3 py-2 cursor-pointer"
+            onClick={() => navigate("/cart")}
+          >
             <div className="relative">
               <LuShoppingCart size={20} />
-              <p className="absolute right-[-2px] top-[3px] w-4 text-center leading-4 bg-orange-600 text-white aspect-square rounded-full text-[9px] font-bold">
-                0
-              </p>
             </div>
-            <span>Cart (0)</span>
+            <span>Cart ({totalCartQuantity})</span>
           </div>
 
           {user ? (
