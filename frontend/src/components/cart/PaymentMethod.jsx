@@ -4,7 +4,10 @@ import CheckoutSteps from "./CheckoutSteps";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { calculateOrderCost } from "../../utils/helpers";
-import { useCreateNewOrderMutation } from "../../redux/api/orderApi";
+import {
+  useCreateNewOrderMutation,
+  useStripeCheckoutSessionMutation,
+} from "../../redux/api/orderApi";
 import { useNavigate } from "react-router-dom";
 
 const PaymentMethod = () => {
@@ -12,11 +15,27 @@ const PaymentMethod = () => {
   const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
 
-  const [createNewOrder, { isLoading, error, isSuccess }] =
-    useCreateNewOrderMutation();
+  const [createNewOrder, { error, isSuccess }] = useCreateNewOrderMutation();
+
+  const [
+    stripeCheckoutSession,
+    { data: checkOutData, error: checkOutError, isLoading },
+  ] = useStripeCheckoutSessionMutation();
 
   const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
     calculateOrderCost(cartItems);
+
+  useEffect(() => {
+    if (checkOutData) {
+      window.location.href = checkOutData?.url;
+    }
+
+    if (checkOutError) {
+      toast.error(
+        checkOutError?.data?.message || "Failed to create checkout session"
+      );
+    }
+  }, [checkOutData, checkOutError]);
 
   useEffect(() => {
     if (error) {
@@ -33,7 +52,16 @@ const PaymentMethod = () => {
     e.preventDefault();
 
     if (paymentMethod === "Card") {
-      alert("Card");
+      const orderData = {
+        shippingInfo,
+        orderItems: cartItems,
+        itemsPrice,
+        shippingAmount: shippingPrice,
+        taxAmount: taxPrice,
+        totalAmount: totalPrice,
+      };
+
+      stripeCheckoutSession(orderData);
     }
 
     if (paymentMethod === "COD") {
@@ -98,6 +126,7 @@ const PaymentMethod = () => {
             <button
               type="submit"
               className="w-full py-2.5 bg-orange-500 text-white font-semibold rounded-md shadow hover:bg-orange-600 transition-colors cursor-pointer"
+              disabled={isLoading}
             >
               CONTINUE
             </button>

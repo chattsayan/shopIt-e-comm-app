@@ -22,7 +22,8 @@
     "mongoose": "^8.14.2",
     "multer": "^2.0.1",
     "multer-storage-cloudinary": "^4.0.0",
-    "nodemailer": "^7.0.3"
+    "nodemailer": "^7.0.3",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
