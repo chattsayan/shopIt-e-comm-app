@@ -114,9 +114,12 @@ const Header = () => {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg z-10 rounded-md">
                   <ul className="py-1">
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      <Link to="/admin/dashboard">Dashboard</Link>
-                    </li>
+                    {user?.role === "admin" && (
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        <Link to="/admin/dashboard">Dashboard</Link>
+                      </li>
+                    )}
+
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                       <Link to="/me/orders">Orders</Link>
                     </li>
@@ -200,9 +203,12 @@ const Header = () => {
               {/* Dropdown menu */}
               {isUserMenuOpen && (
                 <ul className="mt-2 ml-8 text-sm space-y-2">
-                  <li className="hover:text-amber-400 cursor-pointer">
-                    <Link to="/admin/dashboard">Dashboard</Link>
-                  </li>
+                  {user?.role === "admin" && (
+                    <li className="hover:text-amber-400 cursor-pointer">
+                      <Link to="/admin/dashboard">Dashboard</Link>
+                    </li>
+                  )}
+
                   <li className="hover:text-amber-400 cursor-pointer">
                     <Link to="/me/orders">Orders</Link>
                   </li>

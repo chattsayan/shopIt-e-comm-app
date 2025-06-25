@@ -45,7 +45,7 @@ const Home = () => {
   return (
     <>
       <MetaData title={"Buy Best Products Online"} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 mt-5">
         <h1 className="text-gray-600 text-2xl md:text-3xl font-semibold mb-7">
           {keyword
             ? `${data?.products?.length} Products found with keyword: ${keyword}`

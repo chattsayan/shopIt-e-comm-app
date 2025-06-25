@@ -1,9 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 @import "tailwindcss";
-/* @import url("bootstrap/dist/css/bootstrap.min.css"); */
 
 html,
 body {
-  font-family: "Amazon Ember";
+  font-family: "Nunito Sans", sans-serif;
   width: 100%;
   height: 100%;
   margin: 0px;
