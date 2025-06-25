@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import Order from "../models/Order.js";
 import {
   applySearch,
   applyFilters,
@@ -15,10 +16,10 @@ export const getProducts = async (req, res) => {
     let query = Product.find();
     query = applySearch(query, req.query);
     query = applyFilters(query, req.query);
-    
+
     // Get total count before pagination
     const filteredProductsCount = await query.clone().countDocuments();
-    
+
     // Apply pagination after getting count
     query = applyPagination(query, req.query, resultsPerPage);
     const products = await query;
@@ -59,7 +60,9 @@ export const newProduct = async (req, res) => {
 // @access Public
 export const getProductDetails = async (req, res) => {
   try {
-    const product = await Product.findById(req?.params?.id);
+    const product = await Product.findById(req?.params?.id).populate(
+      "reviews.user"
+    );
 
     if (!product) {
       return res.status(404).json({
@@ -274,6 +277,30 @@ export const deleteReview = async (req, res) => {
       .json({ success: true, message: "Review deleted successfully", product });
   } catch (error) {
     console.error("Error while deleting review: ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// @desc   can user review
+// @route  GET /api/v1/can_review
+// @access Public
+export const canUserReview = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      user: req.user._id,
+      "orderItems.product": req.query.productId,
+    });
+
+    if (orders.length === 0) {
+      return res.status(200).json({ canReview: false });
+    }
+
+    res.status(200).json({ canReview: true });
+  } catch (error) {
+    console.error("Error checking if user can review: ", error);
     res.status(500).json({
       success: false,
       message: error.message,

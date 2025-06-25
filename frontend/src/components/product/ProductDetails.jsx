@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import StarRatings from "react-star-ratings";
 import Loader from "../Layout/Loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/slice/cartSlice";
 import MetaData from "../Layout/MetaData";
+import NewReview from "../reviews/NewReview";
+import ListReviews from "../reviews/ListReviews";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -18,6 +20,7 @@ const ProductDetails = () => {
   );
 
   const product = data?.product;
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
     setActiveImg(
@@ -180,11 +183,18 @@ const ProductDetails = () => {
             <strong className="text-gray-800">{product?.seller}</strong>
           </p>
 
-          <div className="mt-8 p-4 bg-red-200 text-red-700 rounded-lg">
-            Login to post your review.
-          </div>
+          {isAuthenticated ? (
+            <NewReview productId={product?._id} />
+          ) : (
+            <div className="mt-8 p-4 bg-red-200 text-red-700 rounded-lg">
+              Login to post your review.
+            </div>
+          )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        <ListReviews reviews={product?.reviews} />
+      )}
     </>
   );
 };
