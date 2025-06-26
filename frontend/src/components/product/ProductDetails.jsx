@@ -68,9 +68,9 @@ const ProductDetails = () => {
         <div className="w-full lg:w-5/12">
           <div className="p-3">
             <img
-              className="w-full h-[390px] object-contain"
               src={activeImg}
               alt={product?.name}
+              className="w-full h-[390px] object-contain"
             />
           </div>
           <div className="flex flex-wrap gap-4 mt-5">

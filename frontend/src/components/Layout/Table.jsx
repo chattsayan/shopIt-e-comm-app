@@ -1,17 +1,5 @@
 import { useState } from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {
-  Card,
-  CardHeader,
-  Typography,
-  CardBody,
-  Input,
-  CardFooter,
-  Button,
-  IconButton,
-  Select,
-  Option,
-} from "@material-tailwind/react";
+import { Card, CardBody, Input, CardFooter } from "@material-tailwind/react";
 
 export function TransactionsTable({ rows = [], headers = [] }) {
   const [currentPage, setCurrentPage] = useState(1);

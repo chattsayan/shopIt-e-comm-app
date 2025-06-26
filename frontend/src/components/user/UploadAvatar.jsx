@@ -78,7 +78,7 @@ const UploadAvatar = () => {
     <UserLayout>
       <MetaData title={"Upload Avatar"} />
       <div className="flex justify-center items-center">
-        <div className="w-full p-8">
+        <div className="w-full max-w-3xl p-8">
           <form onSubmit={submitHandler} className="space-y-8">
             <div className="flex items-center gap-6">
               <div>

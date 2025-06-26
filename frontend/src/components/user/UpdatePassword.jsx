@@ -35,7 +35,7 @@ const UpdatePassword = () => {
     <UserLayout>
       <MetaData title={"Update Password"} />
       <div className="flex justify-center items-center">
-        <div className="w-full p-8">
+        <div className="w-full max-w-3xl p-8">
           <form className="space-y-6" onSubmit={submitHandler}>
             <div>
               <label

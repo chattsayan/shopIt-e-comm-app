@@ -5,6 +5,7 @@ import {
   applyFilters,
   applyPagination,
 } from "../utils/apiFilters.js";
+import { delete_file, upload_file } from "../utils/cloudinary.js";
 
 // @desc   Get all products
 // @route  GET /api/v1/products
@@ -48,6 +49,33 @@ export const newProduct = async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating new product: ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// @desc   Get products
+// @route  GET /api/v1/products
+// @access Admin
+export const getAdminProducts = async (req, res) => {
+  try {
+    const product = await Product.find();
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error("Error getting product details: ", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -115,6 +143,82 @@ export const updateProduct = async (req, res) => {
   }
 };
 
+// @desc   upload product images
+// @route  PUT /api/v1/admin/products/:id/upload_images
+// @access Admin
+export const uploadProductImages = async (req, res) => {
+  try {
+    let product = await Product.findById(req?.params?.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    const uploader = async (image) => upload_file(image, "shopIT/products");
+
+    const urls = await Promise.all((req?.body?.images).map(uploader));
+
+    product?.images?.push(...urls);
+
+    if (!product.user && req.user && req.user._id) {
+      product.user = req.user._id;
+    }
+
+    await product?.save();
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error("Error uploading product images: ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// @desc   delete product images
+// @route  PUT /api/v1/admin/products/:id/delete_image
+// @access Admin
+export const deleteProductImage = async (req, res) => {
+  try {
+    let product = await Product.findById(req?.params?.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    const isDeleted = await delete_file(req.body.imgId);
+
+    if (isDeleted) {
+      product.images = product?.images?.filter(
+        (img) => img.public_id !== req.body.imgId
+      );
+
+      await product?.save();
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error("Error deleting product image: ", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // @desc   delete product
 // @route  DELETE /api/v1/products/:id
 // @access Admin
@@ -127,6 +231,11 @@ export const deleteProduct = async (req, res) => {
         success: false,
         message: "Product not found",
       });
+    }
+
+    // deleting image associated with product
+    for (let i = 0; i < product?.images?.length; i++) {
+      await delete_file(product?.images[i].public_id);
     }
 
     await product.deleteOne();

@@ -41,7 +41,7 @@ const UpdateProfile = () => {
     <UserLayout>
       <MetaData title={"Update Profile"} />
       <div className="flex justify-center items-center">
-        <div className="w-full p-8">
+        <div className="w-full max-w-3xl p-8">
           <form onSubmit={submitHandler} className="space-y-6">
             <div>
               <label
