@@ -9,7 +9,7 @@ body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
-  /* background-color: #f5f5f5; */
+  background-color: #f5f5f5;
 }
 
 /* Scroll Bar */
@@ -30,11 +30,6 @@ body {
   border-radius: 5px;
 }
 
-/* nav {
-  background-color: #232f3e;
-  padding: 1rem 1rem;
-} */
-
 .navbar {
   padding: 0.1rem 1rem;
 }
@@ -44,20 +39,6 @@ body {
   display: inline-block;
   vertical-align: middle;
 }
-
-/* #search_btn {
-  background-color: #febd69;
-} */
-
-/* .input-group {
-  width: 90%;
-  margin-right: 35%;
-} */
-
-/* #search_field {
-  height: 2.4rem;
-  padding: 1rem;
-} */
 
 #login_btn,
 #new_review_btn {
@@ -79,11 +60,6 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
 }
-
-/* Home page */
-/* #products_heading {
-  margin-top: 1.8rem;
-} */
 
 .card {
   height: 100%;
@@ -116,11 +92,6 @@ body {
   font-size: 1.2rem;
   color: #fdcc0d;
 }
-
-/* #no_of_reviews {
-  font-size: 0.9rem;
-  color: grey;
-} */
 
 .App {
   min-height: 100vh;
@@ -281,15 +252,6 @@ footer {
 
 /* Login & Register */
 
-/* .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5rem;
-
-  font-weight: 700;
-} */
-
 .wrapper form {
   padding: 2.5rem 3rem;
 }
@@ -428,16 +390,6 @@ footer {
   width: 16rem;
 }
 
-/* .user-info h4 {
-  font-weight: 800;
-  color: grey;
-  margin-top: 2rem;
-} */
-
-/* .user-info p {
-  font-size: 1.1rem;
-} */
-
 #edit_profile {
   background-color: #fa9c23;
   border-color: #fa9c23;
@@ -534,16 +486,6 @@ footer {
 .cross-button {
   background-color: #dc3545;
 }
-
-/* #filter_form .row .col {
-  padding-left: 5px;
-  padding-right: 5px;
-} */
-
-/* #filter_form button {
-  background-color: #fa9c23;
-  border-color: #fa9c23;
-} */
 
 .filter {
   margin-top: 5.8rem;

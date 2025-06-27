@@ -65,7 +65,7 @@ const Header = () => {
             <img
               src="../images/shopit_logo.png"
               alt="logo"
-              className="h-8 sm:h-10 md:h-12 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
         </div>
@@ -77,15 +77,17 @@ const Header = () => {
 
         {/* Right side: Desktop */}
         <div className="hidden sm:flex items-center gap-2 sm:gap-3">
-          <div
-            className="relative hover:bg-gray-700 rounded-full p-1.5 sm:p-2 cursor-pointer transition-all"
-            onClick={() => navigate("/cart")}
-          >
-            <LuShoppingCart size={20} className="sm:w-6 sm:h-6" />
-            <p className="absolute right-[-2px] top-[3px] w-4 text-center leading-4 bg-orange-600 text-white aspect-square rounded-full text-[9px] font-bold">
-              {totalCartQuantity}
-            </p>
-          </div>
+          {user && (
+            <div
+              className="relative hover:bg-gray-700 rounded-full p-1.5 sm:p-2 cursor-pointer transition-all"
+              onClick={() => navigate("/cart")}
+            >
+              <LuShoppingCart size={20} className="sm:w-6 sm:h-6" />
+              <p className="absolute right-[-2px] top-[3px] w-4 text-center leading-4 bg-orange-600 text-white aspect-square rounded-full text-[9px] font-bold">
+                {totalCartQuantity}
+              </p>
+            </div>
+          )}
 
           {/* Dropdown */}
           {user ? (
@@ -124,7 +126,7 @@ const Header = () => {
                       <Link to="/me/orders">Orders</Link>
                     </li>
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                      <Link to="/me/profile">Profile</Link>
+                      <Link to="/me/profile">Settings</Link>
                     </li>
                     <hr className="mx-2" />
                     <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
@@ -164,15 +166,17 @@ const Header = () => {
         <div className="sm:hidden bg-gray-700 text-white px-4 py-3 space-y-3">
           <Search />
 
-          <div
-            className="flex items-center gap-3 py-2 cursor-pointer"
-            onClick={() => navigate("/cart")}
-          >
-            <div className="relative">
-              <LuShoppingCart size={20} />
+          {user && (
+            <div
+              className="flex items-center gap-3 py-2 cursor-pointer"
+              onClick={() => navigate("/cart")}
+            >
+              <div className="relative">
+                <LuShoppingCart size={20} />
+              </div>
+              <span>Cart ({totalCartQuantity})</span>
             </div>
-            <span>Cart ({totalCartQuantity})</span>
-          </div>
+          )}
 
           {user ? (
             <div>
@@ -213,7 +217,7 @@ const Header = () => {
                     <Link to="/me/orders">Orders</Link>
                   </li>
                   <li className="hover:text-amber-400 cursor-pointer">
-                    <Link to="/me/profile">Profile</Link>
+                    <Link to="/me/profile">Settings</Link>
                   </li>
                   <hr className="my-1 border-gray-600" />
                   <li className="hover:text-amber-400 cursor-pointer">
