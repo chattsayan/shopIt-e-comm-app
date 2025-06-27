@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/database.js";
+import cors from "cors";
 
 // ----- ROUTERS -----
 import productRoutes from "./routes/products.js";
@@ -19,6 +20,13 @@ dotenv.config();
 const app = express();
 
 // ----- MIDDLEWARE -----
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+
 app.use(
   express.json({
     verify: (req, res, buf) => {
