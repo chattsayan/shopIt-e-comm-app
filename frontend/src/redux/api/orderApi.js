@@ -5,8 +5,10 @@ const API_BASE_URL = import.meta.env.VITE_API_URL;
 export const orderApi = createApi({
   reducerPath: "orderApi",
   // baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
-  baseQuery: fetchBaseQuery({ baseUrl: `${API_BASE_URL}/api/v1` }),
-  credentials: "include",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${API_BASE_URL}/api/v1`,
+    credentials: "include",
+  }),
   tagTypes: ["Order", "AdminOrders"],
   endpoints: (builder) => ({
     createNewOrder: builder.mutation({
