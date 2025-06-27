@@ -323,7 +323,9 @@ export const createProductReview = async (req, res) => {
 // @access Public
 export const getProductReviews = async (req, res) => {
   try {
-    const product = await Product.findById(req.query.id);
+    const product = await Product.findById(req.query.id).populate(
+      "reviews.user"
+    );
 
     if (!product) {
       return res.status(404).json({
@@ -350,7 +352,9 @@ export const getProductReviews = async (req, res) => {
 // @access Admin
 export const deleteReview = async (req, res) => {
   try {
-    let product = await Product.findById(req.query.productId);
+    const { productId, id } = req.query;
+
+    let product = await Product.findById(productId);
 
     if (!product) {
       return res.status(404).json({
@@ -360,7 +364,7 @@ export const deleteReview = async (req, res) => {
     }
 
     const reviews = product?.reviews?.filter(
-      (review) => review._id.toString() !== req?.query?.id.toString()
+      (review) => review._id.toString() !== id.toString()
     );
 
     // Update number of reviews
@@ -370,16 +374,13 @@ export const deleteReview = async (req, res) => {
     const ratings =
       numOfReviews === 0
         ? 0
-        : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-          numOfReviews;
+        : reviews.reduce((acc, item) => item.rating + acc, 0) / numOfReviews;
 
     product = await Product.findByIdAndUpdate(
-      req.query.productId,
+      productId,
       { reviews, numOfReviews, ratings },
       { new: true }
     );
-
-    // await product.save({ validateBeforeSave: false });
 
     res
       .status(200)

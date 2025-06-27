@@ -121,23 +121,32 @@ export const updateOrder = async (req, res) => {
       });
     }
 
+    let productNotFound = false;
+
     //   update products stock
-    order?.orderItems?.forEach(async (item) => {
+    for (const item of order.orderItems) {
       const product = await Product.findById(item?.product?.toString());
 
       if (!product) {
-        return res.status(404).json({
-          success: false,
-          message: "No Product found with this ID",
-        });
+        productNotFound = true;
+        break;
       }
 
       product.stock = product.stock - item?.quantity;
       await product.save({ validateBeforeSave: false });
-    });
+    }
+
+    if (productNotFound) {
+      return res.status(404).json({
+        success: false,
+        message: "No Product found with one or more IDs.",
+      });
+    }
 
     order.orderStatus = req.body.status;
-    order.deliveredAt = Date.now();
+    if (req.body.status === "Delivered") {
+      order.deliveredAt = Date.now();
+    }
 
     await order.save();
 
@@ -149,8 +158,8 @@ export const updateOrder = async (req, res) => {
 };
 
 // @desc   Delete order
-// @route  GET /api/v1/orders/:id
-// @access Public
+// @route  GET /api/v1/admin/orders/:id
+// @access Admin
 export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -213,7 +222,6 @@ async function getSalesData(startDate, endDate) {
   });
 
   const datesBetween = getDatesBetween(startDate, endDate);
-  console.log("Dates: ", datesBetween);
 
   // final sales data
   const finalSalesData = datesBetween.map((date) => ({
