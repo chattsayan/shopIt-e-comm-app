@@ -111,9 +111,9 @@ npm run dev
 
 ---
 
-### 🧰 Sample Admin Credentials
+### 🧰 Sample Admin & User Credentials
 
-> Default admin credentials (if seeded manually):
+> Default admin and user credentials (if seeded manually):
 
 ```
 Admin_Email: admin@email.com
