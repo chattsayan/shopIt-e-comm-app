@@ -9,8 +9,8 @@ export default (user, statusCode, res) => {
     ),
     httpOnly: true,
     // ----- required portion for making live -----
-    sameSite: "none",
-    secure: true, // only in production
+    // sameSite: "none",
+    // secure: true, // only in production
     // ----- required portion for making live -----
   };
 

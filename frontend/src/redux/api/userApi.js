@@ -3,12 +3,12 @@ import { setIsAuthenticated, setLoading, setUser } from "../slice/userSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  // baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
   // ----- required portion for making live -----
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://shopit-backend-bcvt.onrender.com/api/v1",
-    credentials: "include",
-  }),
+  // baseQuery: fetchBaseQuery({
+  //   baseUrl: "https://shopit-backend-bcvt.onrender.com/api/v1",
+  //   credentials: "include",
+  // }),
   // ----- required portion for making live -----
   tagTypes: ["User", "AdminUsers", "AdminUser"],
   endpoints: (builder) => ({
