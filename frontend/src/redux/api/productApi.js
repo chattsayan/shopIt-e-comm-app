@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL; // ----- required portion for making live -----
-
 export const productApi = createApi({
   reducerPath: "productsApi",
   // baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
   // ----- required portion for making live -----
   baseQuery: fetchBaseQuery({
-    baseUrl: `${API_BASE_URL}/api/v1`,
+    baseUrl: "https://shopit-backend-bcvt.onrender.com/api/v1",
     credentials: "include",
   }),
   // ----- required portion for making live -----
