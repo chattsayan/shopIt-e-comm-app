@@ -145,8 +145,6 @@ _Add a few screenshots here of the home page, product page, cart, checkout, invo
   ![alt text](image-1.png)
 
 - CHECKOUT:
-  ![alt text](image-2.png) ![alt text](image-3.png) ![alt text](image-4.png)
-
   ![alt text](image-5.png)
 
 - INVOICE:
