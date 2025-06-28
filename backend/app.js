@@ -10,13 +10,13 @@ import authRoutes from "./routes/auth.js";
 import orderRoutes from "./routes/order.js";
 import paymentRoutes from "./routes/payment.js";
 
-/* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
+// /* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
 import { fileURLToPath } from "url";
 import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-*/
+// */
 
 dotenv.config();
 const app = express();
@@ -46,7 +46,7 @@ app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", paymentRoutes);
 
-/* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
+// /* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
 if (process.env.NODE_ENV === "PRODUCTION") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
     res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
   });
 }
-*/
+// */
 
 // ----- CONNECT TO DATABASE -----
 connectDB()
