@@ -119,20 +119,22 @@ const Invoice = () => {
                       <td className="desc">{item?.name}</td>
                       <td className="unit">${item?.price}</td>
                       <td className="qty">{item?.quantity}</td>
-                      <td className="total">${item?.price * item?.quantity}</td>
+                      <td className="total">
+                        ${(item?.price * item?.quantity).toFixed(2)}
+                      </td>
                     </tr>
                   ))}
                   <tr>
                     <td colSpan="4">
                       <b>SUBTOTAL</b>
                     </td>
-                    <td className="total">${order?.itemsPrice}</td>
+                    <td className="total">${order?.itemsPrice.toFixed(2)}</td>
                   </tr>
                   <tr>
                     <td colSpan="4">
                       <b>TAX 15%</b>
                     </td>
-                    <td className="total">${order?.taxAmount}</td>
+                    <td className="total">${order?.taxAmount.toFixed(2)}</td>
                   </tr>
                   <tr>
                     <td colSpan="4">
@@ -148,7 +150,10 @@ const Invoice = () => {
                   </tr>
                 </tbody>
               </table>
-              <div id="notices" style={{ marginTop: '32px', textAlign: 'left' }}>
+              <div
+                id="notices"
+                style={{ marginTop: "32px", textAlign: "left" }}
+              >
                 <div className="font-bold">NOTICE:</div>
                 <div className="notice">
                   A finance charge of 1.5% will be made on unpaid balances after
