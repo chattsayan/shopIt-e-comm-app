@@ -93,6 +93,10 @@ export const logoutUser = async (req, res) => {
     .cookie("token", null, {
       expires: new Date(Date.now()),
       httpOnly: true,
+      // ----- required portion for making live -----
+      sameSite: process.env.NODE_ENV === "PRODUCTION" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "PRODUCTION",
+      // ----- required portion for making live -----
     })
     .json({ message: "Logout successful" });
 };

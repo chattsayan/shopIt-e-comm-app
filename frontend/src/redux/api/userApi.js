@@ -1,13 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setIsAuthenticated, setLoading, setUser } from "../slice/userSlice";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL; // ----- required portion for making live -----
 
 export const userApi = createApi({
   reducerPath: "userApi",
   // baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
-  baseQuery: fetchBaseQuery({ baseUrl: `${API_BASE_URL}/api/v1` }),
-  credentials: "include",
+  // ----- required portion for making live -----
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${API_BASE_URL}/api/v1`,
+    credentials: "include",
+  }),
+  // ----- required portion for making live -----
   tagTypes: ["User", "AdminUsers", "AdminUser"],
   endpoints: (builder) => ({
     getMe: builder.query({

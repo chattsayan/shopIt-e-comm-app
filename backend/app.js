@@ -10,22 +10,26 @@ import authRoutes from "./routes/auth.js";
 import orderRoutes from "./routes/order.js";
 import paymentRoutes from "./routes/payment.js";
 
-// import { fileURLToPath } from "url";
-// import path from "path";
+/* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
+import { fileURLToPath } from "url";
+import path from "path";
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+*/
 
 dotenv.config();
 const app = express();
 
 // ----- MIDDLEWARE -----
+// ----- required portion for making live -----
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
+// ----- required portion for making live -----
 
 app.use(
   express.json({
@@ -42,13 +46,15 @@ app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", paymentRoutes);
 
-// if (process.env.NODE_ENV === "PRODUCTION") {
-//   app.use(express.static(path.join(__dirname, "../frontend/dist")));
+/* NOT REQUIRED FOR MAKING LIVE / DEV TESTING
+if (process.env.NODE_ENV === "PRODUCTION") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
-//   });
-// }
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
+  });
+}
+*/
 
 // ----- CONNECT TO DATABASE -----
 connectDB()
