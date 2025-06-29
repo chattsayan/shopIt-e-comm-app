@@ -162,12 +162,6 @@ Feel free to check the [issues page](https://github.com/chattsayan/shopIt-e-comm
 
 ---
 
-### 📜 License
-
-This project is licensed under the MIT License.
-
----
-
 ### 🙋‍♂️ Author
 
 **Sayan Chatterjee**
